@@ -1,0 +1,75 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres_audit
+    restart: always
+    environment:
+      POSTGRES_USER: admin2026
+      POSTGRES_PASSWORD: "@dmin2026#"
+      POSTGRES_DB: auditdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - audit_net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_audit
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@auditoria2026.com
+      PGADMIN_DEFAULT_PASSWORD: "@dmin2026#"
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - audit_net
+
+  sysbench:
+    image: severalnines/sysbench
+    container_name: sysbench_audit
+    depends_on:
+      - postgres
+    networks:
+      - audit_net
+    command: tail -f /dev/null
+
+  kali:
+    image: kalilinux/kali-rolling
+    container_name: kali_audit
+    tty: true
+    stdin_open: true
+    networks:
+      - audit_net
+    command: tail -f /dev/null
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus_audit
+    ports:
+      - "9090:9090"
+    networks:
+      - audit_net
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana_audit
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - audit_net
+
+networks:
+  audit_net:
+
+volumes:
+  pg_data:
