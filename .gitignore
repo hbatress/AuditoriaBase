@@ -1,0 +1,14 @@
+# ==============================
+# Archivos de entorno / configuración sensible
+# ==============================
+initdb/.env
+.env.local
+.env.*.local
+.env.backup
+# ==============================
+# Docker
+# ==============================
+docker-compose.override.yml
+*.dockerfile
+*.pid
+pg_data/

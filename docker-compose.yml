@@ -7,9 +7,9 @@ services:
     container_name: postgres_audit
     restart: always
     environment:
-      POSTGRES_USER: admin2026
-      POSTGRES_PASSWORD: "@dmin2026#"
-      POSTGRES_DB: auditdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -23,14 +23,15 @@ services:
     container_name: pgadmin_audit
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@auditoria2026.com
-      PGADMIN_DEFAULT_PASSWORD: "@dmin2026#"
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8080:80"
     depends_on:
       - postgres
     networks:
       - audit_net
+
 
   sysbench:
     image: severalnines/sysbench
