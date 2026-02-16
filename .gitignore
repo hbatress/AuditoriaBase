@@ -5,6 +5,7 @@ initdb/.env
 .env.local
 .env.*.local
 .env.backup
+.env
 # ==============================
 # Docker
 # ==============================
